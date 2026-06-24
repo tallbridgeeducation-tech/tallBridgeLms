@@ -115,8 +115,7 @@ export function LessonViewer({ lesson, onComplete, onCorrectAnswer, onWrongAnswe
                 {getLessonIcon(lesson.type)}
                 <span>{getLessonTypeLabel(lesson.type)}</span>
               </div>
-              <span>•</span>
-              <span>{lesson.duration}</span>
+              {lesson.duration && <><span>•</span><span>{lesson.duration}</span></>}
             </div>
             <h1 className="text-xl sm:text-3xl font-semibold text-gray-900">{lesson.title}</h1>
           </div>

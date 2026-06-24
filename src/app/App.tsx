@@ -40,7 +40,7 @@ const mockModules: Module[] = [
       // INTERACTIVE: Discovering Your Teaching Style — add quiz/carousel content in a dedicated component
       { id: '0-2', title: 'Discovering Your Teaching Style', type: 'interactive', duration: '15 min', completed: false },
       // AUDIO: Replace with actual audio file URL (MP3/podcast embed) for the reflection exercise
-      { id: '0-3', title: 'Reflection Exercise', type: 'audio', duration: '8:45', completed: false },
+      { id: '0-3', title: 'Reflection Exercise', type: 'audio', duration: '', completed: false },
     ],
   },
   {
@@ -78,7 +78,7 @@ const mockModules: Module[] = [
       // READING: AIEthicsLesson.tsx renders this as a long-form article — add images/diagrams inside that component
       { id: '2-2', title: 'AI Ethics in Education', type: 'pdf', duration: '8 min', completed: false },
       // AUDIO: Future of AI in Teaching — replace with audio file/podcast embed URL
-      { id: '2-3', title: 'Future of AI in Teaching', type: 'audio', duration: '15:30', completed: false },
+      { id: '2-3', title: 'Future of AI in Teaching', type: 'audio', duration: '', completed: false },
       // QUIZ: Module3Quiz.tsx handles this — update questions/answers inside that component
       { id: '2-4', title: 'Module Quiz', type: 'interactive', duration: '15 min', completed: false },
     ],
@@ -123,7 +123,7 @@ const mockModules: Module[] = [
       // READING: ManagingMeBodyLesson.tsx renders this — add wellness/body-care images inside that component
       { id: '5-1', title: 'Managing My Body', type: 'pdf', duration: '10 min', completed: false },
       // AUDIO: ManagingMeMindLesson.tsx renders this — add meditation/mindfulness audio embed inside that component
-      { id: '5-2', title: 'Managing My Mind & Social Life', type: 'audio', duration: '22 min', completed: false },
+      { id: '5-2', title: 'Managing My Mind & Social Life', type: 'audio', duration: '', completed: false },
       // QUIZ: Module6Quiz.tsx handles this — this is the final lesson; completing it triggers the congratulations page
       { id: '5-3', title: 'Module Quiz', type: 'interactive', duration: '10 min', completed: false },
     ],
