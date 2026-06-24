@@ -57,7 +57,7 @@ const mockModules: Module[] = [
       // VIDEO: Communication verbal vs non-verbal — replace videoUrl with recorded video embed
       { id: '1-3', title: 'Communication — Verbal vs Non-Verbal', type: 'video', duration: '18:45', completed: false },
       // AUDIO: Vocal delivery & articulation — replace with audio file/podcast embed URL
-      { id: '1-4', title: 'Communication — Vocal Delivery & Articulation', type: 'audio', duration: '22 min', completed: false },
+      { id: '1-4', title: 'Communication — Vocal Delivery & Articulation', type: 'audio', duration: '22 min', completed: false, videoUrl: 'https://www.youtube.com/embed/gyIxVwQ98Bg' },
       // VIDEO: Body language & gestures — replace videoUrl with recorded video embed
       { id: '1-5', title: 'Communication — Body Language & Gestures', type: 'video', duration: '16:30', completed: false },
       // READING/PDF: Lesson Planning Guide — replace with embedded PDF viewer or downloadable PDF link
@@ -72,7 +72,7 @@ const mockModules: Module[] = [
     completionPercentage: 0,
     lessons: [
       // VIDEO: Introduction to AI Tools — replace videoUrl with recorded intro video embed
-      { id: '2-0', title: 'Introduction to AI Tools for Teachers', type: 'video', duration: '14:15', completed: false },
+      { id: '2-0', title: 'Introduction to AI Tools for Teachers', type: 'audio', duration: '14:15', completed: false, videoUrl: 'https://www.youtube.com/embed/HODL3erTx2k' },
       // INTERACTIVE: AIToolsLesson.tsx handles this as a carousel of tool cards — add real tool logos in /src/imports/
       { id: '2-1', title: 'AI Tools for ESL Teaching', type: 'interactive', duration: '30 min', completed: false },
       // READING: AIEthicsLesson.tsx renders this as a long-form article — add images/diagrams inside that component
@@ -95,7 +95,7 @@ const mockModules: Module[] = [
       // READING/PDF: IntroVideoLesson.tsx handles this — add sample intro video screenshots/tips inside
       { id: '3-2', title: 'Interview Preparation & Intro Video', type: 'pdf', duration: '4 min', completed: false },
       // VIDEO: Finding Online Teaching Jobs — replace videoUrl with recorded walkthrough video embed
-      { id: '3-3', title: 'Finding Online Teaching Jobs', type: 'video', duration: '10:45', completed: false },
+      { id: '3-3', title: 'Finding Online Teaching Jobs', type: 'video', duration: '10:45', completed: false, videoUrl: 'https://www.youtube.com/embed/mo4vSeuSFwk' },
       // QUIZ: Module4Quiz.tsx handles this — update questions/answers inside that component
       { id: '3-4', title: 'Module Quiz', type: 'interactive', duration: '10 min', completed: false },
     ],

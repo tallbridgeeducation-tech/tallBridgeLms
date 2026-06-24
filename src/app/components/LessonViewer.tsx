@@ -341,46 +341,50 @@ export function LessonViewer({ lesson, onComplete, onCorrectAnswer, onWrongAnswe
 
           {lesson.type === 'audio' && (
             <div className="space-y-4 sm:space-y-6">
-              {/*
-                AUDIO PLACEHOLDER — replace the Play button below with a real audio player.
-                Option A (self-hosted MP3): <audio controls src="/audio/lesson-filename.mp3" className="w-full" />
-                Option B (podcast embed): paste the embed iframe from your podcast host (e.g. Buzzsprout, Anchor)
-                Option C (SoundCloud): <iframe src="https://w.soundcloud.com/player/?url=YOUR_TRACK_URL" />
-              */}
-              <div className="bg-gradient-to-br from-[#6667AB] to-[#8B87C8] rounded-xl p-6 sm:p-12 text-white shadow-xl">
-                <div className="flex flex-col sm:flex-row items-center sm:items-start gap-4 sm:gap-6">
-                  <div className="w-16 h-16 sm:w-24 sm:h-24 bg-white/20 backdrop-blur-sm rounded-full flex items-center justify-center flex-shrink-0">
-                    <Headphones size={32} />
-                  </div>
-                  <div className="flex-1 text-center sm:text-left">
-                    <h3 className="text-xl sm:text-2xl font-semibold mb-1 sm:mb-2">{lesson.title}</h3>
-                    <p className="text-white/80 mb-4 text-sm sm:text-base">Audio Lesson • {lesson.duration}</p>
-                    <div className="flex flex-wrap justify-center sm:justify-start items-center gap-3">
-                      {/* AUDIO PLAYER: replace this button with a real <audio> element or embed (see comment above) */}
-                      <button className="bg-white text-[#6667AB] hover:bg-white/90 px-5 py-2 sm:px-6 sm:py-2.5 rounded-lg text-sm font-medium transition-colors flex items-center gap-2">
-                        <Play size={16} />
-                        <span>Play Audio</span>
-                      </button>
-                      {!lesson.completed && (
-                        <button
-                          onClick={() => onComplete(lesson.id)}
-                          className="border border-white/50 text-white hover:bg-white/10 px-5 py-2 sm:px-6 sm:py-2.5 rounded-lg text-sm font-medium transition-colors"
-                        >
-                          Mark as Complete
-                        </button>
-                      )}
+              {lesson.videoUrl ? (
+                /* YouTube-hosted audio — embed as a player */
+                <div className="bg-black rounded-xl overflow-hidden shadow-2xl aspect-video">
+                  <iframe
+                    className="w-full h-full"
+                    src={lesson.videoUrl}
+                    title={lesson.title}
+                    frameBorder="0"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                    allowFullScreen
+                  />
+                </div>
+              ) : (
+                /* Placeholder shown until an audio URL is provided */
+                <div className="bg-gradient-to-br from-[#6667AB] to-[#8B87C8] rounded-xl p-6 sm:p-12 text-white shadow-xl">
+                  <div className="flex flex-col sm:flex-row items-center sm:items-start gap-4 sm:gap-6">
+                    <div className="w-16 h-16 sm:w-24 sm:h-24 bg-white/20 backdrop-blur-sm rounded-full flex items-center justify-center flex-shrink-0">
+                      <Headphones size={32} />
+                    </div>
+                    <div className="flex-1 text-center sm:text-left">
+                      <h3 className="text-xl sm:text-2xl font-semibold mb-1 sm:mb-2">{lesson.title}</h3>
+                      <p className="text-white/80 mb-4 text-sm sm:text-base">Audio Lesson • {lesson.duration}</p>
+                      <p className="text-white/60 text-sm">Audio coming soon</p>
                     </div>
                   </div>
                 </div>
-              </div>
+              )}
 
               <div className="bg-white rounded-xl p-4 sm:p-6 shadow-sm">
                 <h3 className="font-semibold text-base sm:text-lg mb-3 text-gray-900">Listening Guide</h3>
                 <p className="text-sm sm:text-base text-gray-700 leading-relaxed">
-                  This audio lesson provides deep insights and reflections. Find a quiet space,
-                  put on your headphones, and immerse yourself in the content. You can listen at
-                  your own pace and revisit sections as needed.
+                  Find a quiet space, put on your headphones, and immerse yourself in the content.
+                  You can pause and rewind as needed.
                 </p>
+                {!lesson.completed && (
+                  <div className="pt-4 border-t border-gray-100 mt-4">
+                    <button
+                      onClick={() => onComplete(lesson.id)}
+                      className="border border-[#6667AB] text-[#6667AB] hover:bg-[#6667AB]/5 px-5 py-2 sm:px-6 sm:py-2.5 rounded-lg text-sm font-medium transition-colors"
+                    >
+                      Mark as Complete
+                    </button>
+                  </div>
+                )}
               </div>
             </div>
           )}
