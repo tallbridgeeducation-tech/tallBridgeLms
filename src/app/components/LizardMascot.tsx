@@ -281,17 +281,48 @@ export function LizardMascot({ isWalking, isCelebrating, isDying = false, isDanc
                   <div className="text-white text-xs">
                     <p className="font-medium mb-0.5">💬 Contact Support</p>
                     <p className="text-white/80 text-[11px] mb-2">
-                      Need help? Reach out to us:
+                      We're here to help. Reach out and a member of our team will get back to you.
                     </p>
                     <div className="space-y-1.5 text-[11px]">
-                      <div className="bg-[#721CB8] rounded-lg p-2">
-                        <div className="text-white/60 text-[10px]">Email</div>
-                        <div className="text-[#96D74C]">support@tallbridge.edu</div>
-                      </div>
-                      <div className="bg-[#721CB8] rounded-lg p-2">
-                        <div className="text-white/60 text-[10px]">WhatsApp</div>
-                        <div className="text-[#96D74C]">+234 XXX XXX XXXX</div>
-                      </div>
+
+                      {/* Email */}
+                      <a
+                        href="mailto:support@tallbridgeeducation.com"
+                        className="flex items-center gap-2 bg-[#721CB8] hover:bg-[#5a1690] rounded-lg p-2 transition-colors no-underline"
+                      >
+                        <span className="text-base leading-none">✉️</span>
+                        <div>
+                          <div className="text-white/60 text-[10px]">Email</div>
+                          <div className="text-[#96D74C]">support@tallbridgeeducation.com</div>
+                        </div>
+                      </a>
+
+                      {/* Phone */}
+                      <a
+                        href="tel:+2348164591710"
+                        className="flex items-center gap-2 bg-[#721CB8] hover:bg-[#5a1690] rounded-lg p-2 transition-colors no-underline"
+                      >
+                        <span className="text-base leading-none">📞</span>
+                        <div>
+                          <div className="text-white/60 text-[10px]">Phone</div>
+                          <div className="text-[#96D74C]">+234 816 459 1710</div>
+                        </div>
+                      </a>
+
+                      {/* WhatsApp with pre-filled message */}
+                      <a
+                        href={`https://wa.me/2348164591710?text=${encodeURIComponent('Good day, Tall Bridge Support. I am a student on the Tall Bridge Institute LMS and I have a concern I would like help with.')}`}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="flex items-center gap-2 bg-[#25D366] hover:bg-[#1ebe5a] rounded-lg p-2 transition-colors no-underline"
+                      >
+                        <span className="text-base leading-none">💬</span>
+                        <div>
+                          <div className="text-white/80 text-[10px]">WhatsApp</div>
+                          <div className="text-white font-medium">Message us on WhatsApp</div>
+                        </div>
+                      </a>
+
                     </div>
                   </div>
                   <button
