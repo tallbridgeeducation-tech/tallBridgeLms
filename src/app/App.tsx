@@ -31,16 +31,10 @@ const mockModules: Module[] = [
   {
     id: 0,
     title: 'Meet Yourself',
-    completionPercentage: 0, // starts at 0% for every new student
+    completionPercentage: 0,
     lessons: [
-      // VIDEO: Replace videoUrl with the actual uploaded welcome video URL (e.g. Vimeo/YouTube embed link)
-      { id: '0-0', title: 'Welcome to Tall Bridge Education', type: 'video', duration: '5:30', completed: false },
-      // READING: NigerianTeacherLesson.tsx renders this as a long-form article — add images/illustrations there
+      // READING: NigerianTeacherLesson.tsx renders this as a long-form article
       { id: '0-1', title: 'The Nigerian Teacher Narrative', type: 'pdf', duration: '8 min', completed: false },
-      // INTERACTIVE: Discovering Your Teaching Style — add quiz/carousel content in a dedicated component
-      { id: '0-2', title: 'Discovering Your Teaching Style', type: 'interactive', duration: '15 min', completed: false },
-      // AUDIO: Replace with actual audio file URL (MP3/podcast embed) for the reflection exercise
-      { id: '0-3', title: 'Reflection Exercise', type: 'audio', duration: '', completed: false },
     ],
   },
   {
@@ -48,21 +42,15 @@ const mockModules: Module[] = [
     title: 'Teaching the Teacher',
     completionPercentage: 0,
     lessons: [
-      // VIDEO: Pedagogy Fundamentals — replace videoUrl with recorded lecture embed
-      { id: '1-0', title: 'Pedagogy Fundamentals', type: 'video', duration: '15:30', completed: false },
-      // INTERACTIVE: EngagementScenarios.tsx handles this — add scenario images/illustrations inside that component
+      // INTERACTIVE: EngagementScenarios.tsx handles this
       { id: '1-1', title: 'Engagement Techniques', type: 'interactive', duration: '25 min', completed: false },
-      // INTERACTIVE: ClassroomManagement.tsx handles this — add scenario content/images inside that component
+      // INTERACTIVE: ClassroomManagement.tsx handles this
       { id: '1-2', title: 'Classroom Management', type: 'interactive', duration: '15 min', completed: false },
-      // VIDEO: Communication verbal vs non-verbal — replace videoUrl with recorded video embed
-      { id: '1-3', title: 'Communication — Verbal vs Non-Verbal', type: 'video', duration: '18:45', completed: false },
-      // AUDIO: Vocal delivery & articulation — replace with audio file/podcast embed URL
+      // AUDIO: Vocal delivery & articulation — YouTube embed
       { id: '1-4', title: 'Communication — Vocal Delivery & Articulation', type: 'audio', duration: '22 min', completed: false, videoUrl: 'https://www.youtube.com/embed/gyIxVwQ98Bg' },
-      // VIDEO: Body language & gestures — replace videoUrl with recorded video embed
-      { id: '1-5', title: 'Communication — Body Language & Gestures', type: 'video', duration: '16:30', completed: false },
-      // READING/PDF: Lesson Planning Guide — replace with embedded PDF viewer or downloadable PDF link
-      { id: '1-6', title: 'Lesson Planning Guide', type: 'pdf', duration: '12 min', completed: false },
-      // QUIZ: Module2Quiz.tsx handles this — update questions/answers inside that component
+      // HTML: Lesson Planning Resources — rendered via LessonPlanningGuide.tsx + public/lessons/module-2-lesson-4.html
+      { id: '1-6', title: 'Lesson Planning Resources', type: 'pdf', duration: '8 min', completed: false },
+      // QUIZ: Module2Quiz.tsx handles this
       { id: '1-7', title: 'Module Quiz', type: 'interactive', duration: '20 min', completed: false },
     ],
   },
@@ -105,11 +93,9 @@ const mockModules: Module[] = [
     title: 'Teaching Platforms',
     completionPercentage: 0,
     lessons: [
-      // VIDEO: Teaching Platforms intro — replace videoUrl with platform walkthrough video embed
-      { id: '4-0', title: 'Introduction to Teaching Platforms', type: 'video', duration: '10:00', completed: false },
-      // INTERACTIVE: TeachingPlatformsLesson.tsx handles this — add platform screenshots/demo content inside
+      // INTERACTIVE: TeachingPlatformsLesson.tsx handles this
       { id: '4-1', title: 'Platform Tools & Features', type: 'interactive', duration: '25 min', completed: false },
-      // READING/PDF: Setting Up Your Profile — replace with embedded PDF or step-by-step illustrated guide
+      // READING/PDF: Setting Up Your Profile
       { id: '4-2', title: 'Setting Up Your Profile', type: 'pdf', duration: '8 min', completed: false },
     ],
   },
@@ -118,21 +104,64 @@ const mockModules: Module[] = [
     title: 'Managing Me',
     completionPercentage: 0,
     lessons: [
-      // VIDEO: How to Manage Me — replace videoUrl with recorded video embed
-      { id: '5-0', title: 'How to Manage Me', type: 'video', duration: '12:00', completed: false },
-      // READING: ManagingMeBodyLesson.tsx renders this — add wellness/body-care images inside that component
+      // READING: ManagingMeBodyLesson.tsx handles this
       { id: '5-1', title: 'Managing My Body', type: 'pdf', duration: '10 min', completed: false },
-      // AUDIO: ManagingMeMindLesson.tsx renders this — add meditation/mindfulness audio embed inside that component
+      // AUDIO: ManagingMeMindLesson.tsx handles this
       { id: '5-2', title: 'Managing My Mind & Social Life', type: 'audio', duration: '', completed: false },
-      // QUIZ: Module6Quiz.tsx handles this — this is the final lesson; completing it triggers the congratulations page
+      // QUIZ: Module6Quiz.tsx — FINAL LESSON; completing this triggers the congratulations screen
       { id: '5-3', title: 'Module Quiz', type: 'interactive', duration: '10 min', completed: false },
     ],
   },
 ];
 
+// ── Progress persistence helpers ───────────────────────────────────────────
+// Completed lesson IDs are stored as a JSON array under 'tbi_progress'.
+// Last-open lesson ID is stored under 'tbi_last_lesson'.
+// This survives page refreshes, tab closes, and Paystack redirects to the subdomain.
+function loadCompletedIds(): Set<string> {
+  try {
+    const raw = localStorage.getItem('tbi_progress');
+    return new Set(raw ? JSON.parse(raw) : []);
+  } catch {
+    return new Set();
+  }
+}
+
+function saveCompletedIds(ids: Set<string>) {
+  localStorage.setItem('tbi_progress', JSON.stringify([...ids]));
+}
+
+function hydrateModules(base: Module[], completedIds: Set<string>): Module[] {
+  return base.map((module) => {
+    const lessons = module.lessons.map((l) => ({
+      ...l,
+      completed: completedIds.has(l.id),
+    }));
+    const completedCount = lessons.filter((l) => l.completed).length;
+    return {
+      ...module,
+      lessons,
+      completionPercentage: Math.round((completedCount / lessons.length) * 100),
+    };
+  });
+}
+
 export default function App() {
-  const [modules, setModules] = useState<Module[]>(mockModules);
-  const [selectedLesson, setSelectedLesson] = useState<Lesson | null>(null);
+  const [modules, setModules] = useState<Module[]>(() =>
+    hydrateModules(mockModules, loadCompletedIds())
+  );
+
+  const [selectedLesson, setSelectedLesson] = useState<Lesson | null>(() => {
+    const lastId = localStorage.getItem('tbi_last_lesson');
+    if (!lastId) return null;
+    const completedIds = loadCompletedIds();
+    for (const mod of mockModules) {
+      const found = mod.lessons.find((l) => l.id === lastId);
+      if (found) return { ...found, completed: completedIds.has(found.id) };
+    }
+    return null;
+  });
+
   const [isLoading, setIsLoading] = useState(false);
   const [showCelebration, setShowCelebration] = useState(false);
   const [showDying, setShowDying] = useState(false);
@@ -152,6 +181,7 @@ export default function App() {
   useEffect(() => { localStorage.setItem('tbi_dark', String(darkMode)); }, [darkMode]);
 
   const handleLessonSelect = (lesson: Lesson) => {
+    localStorage.setItem('tbi_last_lesson', lesson.id);
     setIsLoading(true);
     setTimeout(() => {
       setSelectedLesson(lesson);
@@ -160,6 +190,11 @@ export default function App() {
   };
 
   const handleLessonComplete = (moduleId: number, lessonId: string) => {
+    // Persist the newly completed lesson ID immediately
+    const completedIds = loadCompletedIds();
+    completedIds.add(lessonId);
+    saveCompletedIds(completedIds);
+
     setModules((prevModules) => {
       const updatedModules = prevModules.map((module) => {
         if (module.id === moduleId) {
@@ -185,6 +220,9 @@ export default function App() {
       });
       return updatedModules;
     });
+
+    // Mark the currently-viewed lesson as complete in the UI immediately
+    setSelectedLesson((prev) => prev?.id === lessonId ? { ...prev, completed: true } : prev);
 
     // Check if this is the final lesson (5-3) - show congratulations page
     if (lessonId === '5-3') {
